@@ -21,18 +21,19 @@ public class MainActivity extends AppCompatActivity {
     public static final String EMAIL_KEY = "email";
     public static final String PWD_KEY = "pwd";
     private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("users/credentials");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
-    public void signUp(View view){
+    public void signUp(View view) {
         EditText emailView = (EditText) findViewById(R.id.emailAddr1);
         EditText pwdView = (EditText) findViewById(R.id.password);
         String email = emailView.getText().toString();
         String pwd = pwdView.getText().toString();
-        if(email.isEmpty() || pwd.isEmpty()) return;
+        if (email.isEmpty() || pwd.isEmpty()) return;
         Map<String, Object> dataToSave = new HashMap<String, Object>();
         dataToSave.put(EMAIL_KEY, email);
         dataToSave.put(PWD_KEY, pwd);
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         mDocRef.set(dataToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d(TAG,"Document has been saved");
+                Log.d(TAG, "Document has been saved");
 
             }
         }).addOnFailureListener(new OnFailureListener() {
