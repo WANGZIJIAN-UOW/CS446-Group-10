@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getName();
-//    public static final String EMAIL_KEY = "email";
+    //    public static final String EMAIL_KEY = "email";
 //    public static final String PWD_KEY = "pwd";
     private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("users/credentials");
     private Button signUpButton;
