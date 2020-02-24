@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string-array name = "my_users">
+        <item>Helen</item>
+        <item>Jenny</item>
+        <item>Sarah</item>
+    </string-array>
 </resources>
