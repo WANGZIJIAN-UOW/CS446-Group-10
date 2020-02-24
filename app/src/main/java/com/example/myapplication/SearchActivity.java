@@ -1,35 +1,18 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
-import android.view.View;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
-import android.widget.TextView;
-import android.content.Context;
-import android.database.Cursor;
-import android.text.TextWatcher;
 
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -39,7 +22,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.sign_up);
 
         search_user = (ListView) findViewById(R.id.search_user);
 

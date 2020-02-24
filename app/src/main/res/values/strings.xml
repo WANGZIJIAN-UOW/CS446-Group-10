@@ -1,8 +1,18 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string-array name = "my_users">
+    <string-array name="my_users">
         <item>Helen</item>
         <item>Jenny</item>
         <item>Sarah</item>
     </string-array>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_in_register">Register</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

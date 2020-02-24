@@ -23,7 +23,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/searchbox_bj"
+
                 android:hint="Enter UserID or Email"
                 android:maxLength="10"
                 android:paddingLeft="15dp"
@@ -37,7 +37,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:paddingRight="20dp"
-                android:src="@drawable/delete"
+
                 android:visibility="gone" />
 
         </RelativeLayout>

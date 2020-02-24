@@ -3,9 +3,11 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -18,37 +20,33 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getName();
-    public static final String EMAIL_KEY = "email";
-    public static final String PWD_KEY = "pwd";
+//    public static final String EMAIL_KEY = "email";
+//    public static final String PWD_KEY = "pwd";
     private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("users/credentials");
-
+    private Button signUpButton;
+    private Button signInButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
-    public void signUp(View view) {
-        EditText emailView = (EditText) findViewById(R.id.emailAddr1);
-        EditText pwdView = (EditText) findViewById(R.id.password);
-        String email = emailView.getText().toString();
-        String pwd = pwdView.getText().toString();
-        if (email.isEmpty() || pwd.isEmpty()) return;
-        Map<String, Object> dataToSave = new HashMap<String, Object>();
-        dataToSave.put(EMAIL_KEY, email);
-        dataToSave.put(PWD_KEY, pwd);
-
-        mDocRef.set(dataToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
+        signUpButton = (Button) findViewById(R.id.signUpActionButton);
+        signInButton = (Button) findViewById(R.id.signIn);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "Document has been saved");
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Document was not saved");
+            public void onClick(View v) {
+                goSignUp();
             }
         });
     }
+
+    public void goSignUp(){
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+    }
+
+    public void signIn(){
+
+    }
+
 }
