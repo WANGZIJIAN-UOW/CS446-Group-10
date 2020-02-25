@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goSignUp(){
-        Intent intent = new Intent(this, SearchActivity.class);
+        Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
 
