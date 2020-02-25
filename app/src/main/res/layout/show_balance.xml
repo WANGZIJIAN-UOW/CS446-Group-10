@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/owedTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:text="Owed Balance"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/outstandingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="25dp"
+        android:text="Outstanding Balance"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/owedBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/owedTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="25dp"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/outstandingBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/outstandingTitle"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="36sp" />
+
+</android.widget.RelativeLayout>

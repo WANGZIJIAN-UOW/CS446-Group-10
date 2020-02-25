@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".AddLoan"></activity>
         <activity android:name=".AddLoanActivity" />
+        <activity android:name=".ShowBalance" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".ResultActivity" />
