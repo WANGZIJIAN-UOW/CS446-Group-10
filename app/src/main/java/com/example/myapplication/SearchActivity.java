@@ -16,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SearchActivity extends AppCompatActivity {
     private static final String TAG = "SearchActivity";
 
-    private String[] mStrs = {"aaa", "bbb", "ccc", "airsaid"};
-    private SearchView mSearchView;
-    private ListView mListView;
+    String[] mStrs = {"Helen", "Helen2", "Helen3", "Helen4"};
+    SearchView mSearchView;
+    ListView mListView;
     private Button button;
     public static final String extraMessage = "com.example.android.twoactivities.extra.MESSAGE";
     // private CollectionReference cities = db.collection("cities");
@@ -31,7 +31,8 @@ public class SearchActivity extends AppCompatActivity {
         mSearchView = (SearchView) findViewById(R.id.searchView);
 
         mListView = (ListView) findViewById(R.id.listView);
-        mListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mStrs));
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mStrs);
+        mListView.setAdapter(adapter);
         mListView.setTextFilterEnabled(true);
         button = (Button) findViewById(R.id.search);
 
@@ -50,13 +51,12 @@ public class SearchActivity extends AppCompatActivity {
 
         // 设置搜索文本监听
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // 当点击搜索按钮时触发该方法
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
 
-            // 当搜索内容改变时触发该方法
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (!TextUtils.isEmpty(newText)){
