@@ -80,15 +80,15 @@ public class MainActivity extends AppCompatActivity {
                     mFirebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            /*if(!task.isSuccessful()){
+                            if(!task.isSuccessful()){
                                 Toast.makeText(MainActivity.this, "Login Error!", Toast.LENGTH_SHORT);
 
-                            }*/
-                            //else{
+                            }
+                            else{
                                 Intent intent = new Intent(getApplicationContext(), ShowBalance.class);
                                 intent.putExtra("username", email);
                                 startActivity(intent);
-                            //}
+                            }
                         }
                     });
                 }
