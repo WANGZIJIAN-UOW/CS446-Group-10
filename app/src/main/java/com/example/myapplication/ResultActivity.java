@@ -15,15 +15,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ResultActivity extends AppCompatActivity{
     private static final String TAG = "secondActivity";
+    private String cur_user;
 
-    //DatabaseReference mDatabase;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference mDocRef = db.document("contact/shanglin1/list/shanglin2");
+    //private DocumentReference mDocRef = db.document("contact/" + cur_user + "/list" + message);
+    //private CollectionReference mColRef = db.collection("user/");
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,29 +50,32 @@ public class ResultActivity extends AppCompatActivity{
                 Log.i("widgetDemo", "Added as Friend");
             }
         });
+
+        final DocumentReference mDocRef = db.document("contact/" + cur_user + "/list" + message);
+
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
                 setTitle("Added as Close Friend");
                 Log.i("widgetDemo", "Added as Close Friend");
-                mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            } else {
-                                Log.d(TAG, "No such document");
+                mDocRef.update("close", true)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully updated!");
                             }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error updating document", e);
+                            }
+                        });
             }
         });
+
+
 
     }
 
