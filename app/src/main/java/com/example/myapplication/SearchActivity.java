@@ -11,14 +11,32 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SearchActivity extends AppCompatActivity {
+
+    public void setContentView(View view) {
+        getWindow().setContentView(view);
+    }
     private static final String TAG = "SearchActivity";
 
-    String[] mStrs = {"Helen", "Helen2", "Helen3", "Helen4"};
-    SearchView mSearchView;
-    ListView mListView;
+    private List<String> data(){
+        List<String> data = new ArrayList<String>();
+        data.add("Helen");
+        data.add("Zijian");
+        data.add("Shanglin");
+        data.add("Shuangyou");
+        data.add("Helen2");
+        data.add("Helen3");
+        return data;
+    }
+
+    //String[] mStrs = {"Helen", "Helen2", "Helen3", "Helen4"};
+    private SearchView mSearchView;
+    private ListView mListView;
     private Button button;
     public static final String extraMessage = "com.example.android.twoactivities.extra.MESSAGE";
     // private CollectionReference cities = db.collection("cities");
@@ -27,11 +45,11 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mSearchView = (SearchView) findViewById(R.id.searchView);
+        setContentView(R.layout.activity_search);
+        mSearchView = (SearchView) findViewById(R.id.searchView2);
 
-        mListView = (ListView) findViewById(R.id.listView);
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mStrs);
+        mListView = (ListView) findViewById(R.id.mylist);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data());
         mListView.setAdapter(adapter);
         mListView.setTextFilterEnabled(true);
         button = (Button) findViewById(R.id.search);
@@ -40,7 +58,6 @@ public class SearchActivity extends AppCompatActivity {
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //显示方式声明Intent，直接启动SecondActivity
                 Intent intent = new Intent(SearchActivity.this, ResultActivity.class);
                 Log.i(TAG, "onClick: " + mSearchView.getQuery().toString());
                 intent.putExtra(extraMessage, mSearchView.getQuery().toString());
@@ -48,8 +65,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-
-        // 设置搜索文本监听
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
