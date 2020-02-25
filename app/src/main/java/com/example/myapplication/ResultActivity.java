@@ -19,6 +19,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class ResultActivity extends AppCompatActivity{
     private static final String TAG = "secondActivity";
     private String cur_user;
@@ -26,6 +30,7 @@ public class ResultActivity extends AppCompatActivity{
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     //private DocumentReference mDocRef = db.document("contact/" + cur_user + "/list" + message);
     //private CollectionReference mColRef = db.collection("user/");
+    //private CollectionReference mColRef_add = db.collection("contact/" + cur_user + "/list");
 
 
 
@@ -38,16 +43,34 @@ public class ResultActivity extends AppCompatActivity{
 
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(SearchActivity.extraMessage);
+        final String message = intent.getStringExtra(SearchActivity.extraMessage);
 
         view.setText(message);
         Log.i(TAG, "onCreate: " + message);
+
+        final CollectionReference mColRef_add = db.collection("contact/" + cur_user + "/list");
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
                 setTitle("Added as Friend");
                 Log.i("widgetDemo", "Added as Friend");
+                mColRef_add
+                        .add(message)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error adding document", e);
+                            }
+                        });
+
+
             }
         });
 
