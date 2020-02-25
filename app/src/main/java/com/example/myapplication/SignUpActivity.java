@@ -62,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
         // check username exist or not
-        final DocumentReference docRef = mColRef.document(username);
+        final DocumentReference docRef = mColRef.document(email);
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -110,8 +110,11 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         }
                     });
-
-
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("close", true);
+                    data.put("money", 0);
+                    FirebaseFirestore.getInstance().collection("contact").document(email)
+                            .collection("list").document(email).set(data);
                 }
 
             }

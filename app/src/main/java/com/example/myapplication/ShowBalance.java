@@ -22,9 +22,9 @@ public class ShowBalance extends AppCompatActivity {
     }
 
     private static final String TAG = SignUpActivity.class.getName();
-    private String username = "shanglin2";
+    private String username;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference mDocRef = db.collection("contact/" + username + "/list");
+    private CollectionReference mDocRef;
     public ArrayList<Contact> contacts = new ArrayList<Contact>();
 
     public double getOwedBalance() {
@@ -51,6 +51,8 @@ public class ShowBalance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_balance);
+        username = getIntent().getExtras().getString("username");
+        mDocRef = db.collection("contact/" + username + "/list");
         fillBalances();
     }
 
@@ -62,7 +64,9 @@ public class ShowBalance extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if (document.exists()) {
                             Contact contact = document.toObject(Contact.class);
-                            contacts.add(contact);
+                            contact.contact = document.getId();
+                            if (!document.getId().equals(username))
+                                contacts.add(contact);
 
                             TextView owedBalance = (TextView)findViewById(R.id.owedBalance);
                             String owedBalanceAmount = "$" + getOwedBalance();
