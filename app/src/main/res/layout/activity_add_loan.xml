@@ -10,9 +10,26 @@
         android:id="@+id/addLoan"
         android:layout_width="405dp"
         android:layout_height="66dp"
+        android:layout_marginBottom="90dp"
         android:text="Add Loan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ListView
+        android:id="@+id/loanList"
+        android:layout_width="409dp"
+        android:layout_height="664dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="413dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="20dp"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
