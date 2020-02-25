@@ -47,4 +47,12 @@
         android:textColor="@android:color/holo_red_dark"
         android:textSize="36sp" />
 
+    <Button
+        android:id="@+id/loans"
+        android:layout_width="395dp"
+        android:layout_height="49dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:text="Laons" />
+
 </android.widget.RelativeLayout>

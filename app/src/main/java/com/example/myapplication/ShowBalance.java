@@ -2,8 +2,11 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,6 +29,8 @@ public class ShowBalance extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference mDocRef;
     public ArrayList<Contact> contacts = new ArrayList<Contact>();
+
+    private Button loans;
 
     public double getOwedBalance() {
         double positive = 0.0;
@@ -54,6 +59,15 @@ public class ShowBalance extends AppCompatActivity {
         username = getIntent().getExtras().getString("username");
         mDocRef = db.collection("contact/" + username + "/list");
         fillBalances();
+
+        loans = (Button) findViewById(R.id.loans);
+        loans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openLoans();
+            }
+        });
+
     }
 
     public void fillBalances() {
@@ -81,4 +95,11 @@ public class ShowBalance extends AppCompatActivity {
             }
         });
     }
+
+    public void openLoans(){
+        Intent intent = new Intent(this, AddLoanActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+    }
+
 }
