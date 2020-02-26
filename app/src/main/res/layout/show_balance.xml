@@ -53,7 +53,7 @@
         android:layout_height="49dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"
-        android:text="Laons" />
+        android:text="Loans" />
 
     <Button
         android:id="@+id/gosearch"

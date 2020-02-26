@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SearchActivity extends AppCompatActivity {
 
-    String cur_user = getIntent().getExtras().getString("username");
+    String cur_user;
 
     public void setContentView(View view) {
         getWindow().setContentView(view);
@@ -49,6 +49,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         mSearchView = (SearchView) findViewById(R.id.searchView2);
+        cur_user = getIntent().getExtras().getString("username");
 
         mListView = (ListView) findViewById(R.id.mylist);
         ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data());

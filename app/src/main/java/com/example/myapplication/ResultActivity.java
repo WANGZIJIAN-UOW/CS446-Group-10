@@ -71,7 +71,7 @@ public class ResultActivity extends AppCompatActivity{
             }
         });
 
-        final DocumentReference mDocRef = db.document("contact/" + cur_user + "/list" + message);
+        final DocumentReference mDocRef = db.document("contact/" + cur_user + "/list/" + message);
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
