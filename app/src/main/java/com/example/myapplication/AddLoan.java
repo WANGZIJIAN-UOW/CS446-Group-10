@@ -193,7 +193,9 @@ public class AddLoan extends AppCompatActivity {
             public void onClick(View v) {
                 loanName = (EditText) findViewById(R.id.loanName);
                 loanMoney = (EditText) findViewById(R.id.loanMoney);
-                addNewLoan2db(username,loanName.getText().toString(), loanMoney.getText().toString());
+                if(!loanName.getText().toString().isEmpty() && !loanMoney.getText().toString().isEmpty()) {
+                    addNewLoan2db(username, loanName.getText().toString(), loanMoney.getText().toString());
+                }
             }
         });
 
@@ -206,14 +208,12 @@ public class AddLoan extends AppCompatActivity {
         data.put("Creditor", name);
         data.put("Debtor", username);
 
-        if(amount.isEmpty() || name.isEmpty()){}
-        else {
 
-            db.collection("Loans").add(data);
-            Intent intent = new Intent(this, AddLoanActivity.class);
-            intent.putExtra("username", username);
-            startActivity(intent);
-        }
+
+        db.collection("Loans").add(data);
+        Intent intent = new Intent(this, AddLoanActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
 
     }
 }
