@@ -217,7 +217,9 @@ public class AddLoan extends AppCompatActivity {
             public void onClick(View v) {
                 loanName = (EditText) findViewById(R.id.loanName);
                 loanMoney = (EditText) findViewById(R.id.loanMoney);
-                addNewLoan2db(username,loanName.getText().toString(), loanMoney.getText().toString());
+                if(!loanName.getText().toString().isEmpty() && !loanMoney.getText().toString().isEmpty()) {
+                    addNewLoan2db(username, loanName.getText().toString(), loanMoney.getText().toString());
+                }
             }
         });
 
