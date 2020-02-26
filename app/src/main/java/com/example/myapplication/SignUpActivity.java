@@ -54,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
     public void signUp(View view) {
         EditText emailView = (EditText) findViewById(R.id.emailAddr1);
         EditText pwdView = (EditText) findViewById(R.id.loginPassword);
-        EditText unameView = (EditText) findViewById(R.id.loginEmail);
+        EditText unameView = (EditText) findViewById(R.id.loginUserName);
         final String email = emailView.getText().toString();
         final String pwd = pwdView.getText().toString();
         final String username = unameView.getText().toString();

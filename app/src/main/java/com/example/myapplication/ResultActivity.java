@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,6 +40,8 @@ public class ResultActivity extends AppCompatActivity{
         Button btn2 = this.findViewById(R.id.close_friend);
         TextView view = this.findViewById(R.id.result_user);
 
+        CircularImageView c = (CircularImageView) findViewById(R.id.profileImage);
+        c.setBorderWidth(10);
         final Map<String, Object> friend = new HashMap<>();
         friend.put("close", true);
         friend.put("money", 0);

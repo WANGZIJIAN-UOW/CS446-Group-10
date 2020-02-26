@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bluebg">
+
+
+
+    </LinearLayout>
+
+
 
     <TextView
         android:id="@+id/owedTitle"
@@ -14,6 +24,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginLeft="25dp"
         android:text="Owed Balance"
+        android:textStyle="bold"
         android:textSize="14sp" />
 
     <TextView
@@ -25,6 +36,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginRight="25dp"
         android:text="Outstanding Balance"
+        android:textStyle="bold"
         android:textSize="14sp" />
 
     <TextView
@@ -49,10 +61,15 @@
 
     <Button
         android:id="@+id/loans"
-        android:layout_width="395dp"
-        android:layout_height="49dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
         android:layout_marginBottom="21dp"
+        android:background="#3F51B5"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-smallcaps"
         android:text="Loans" />
 
     <Button
@@ -60,21 +77,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/loans"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
         android:layout_marginBottom="7dp"
+        android:textColor="@color/white"
+        android:background="#33DCF1"
+        android:fontFamily="sans-serif-smallcaps"
         android:text="Search" />
 
     <Button
         android:id="@+id/logOut1"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="401dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
         android:layout_above="@+id/gosearch"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="7dp"
         android:backgroundTint="#2196F3"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-smallcaps"
         android:text="Log Out" />
 
-</android.widget.RelativeLayout>
+</RelativeLayout>
