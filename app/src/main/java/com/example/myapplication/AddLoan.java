@@ -210,7 +210,7 @@ public class AddLoan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_loan2);
-        username = getIntent().getExtras().getString("username");
+        username = getIntent().getExtras().getString("email");
         confirmLoan = (Button) findViewById(R.id.confirmLoan);
         confirmLoan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,7 +237,7 @@ public class AddLoan extends AppCompatActivity {
         addDebt(username, name, Double.parseDouble(amount));
 
         Intent intent = new Intent(this, AddLoanActivity.class);
-        intent.putExtra("username", username);
+        intent.putExtra("email", username);
         startActivity(intent);
 
     }
