@@ -39,6 +39,10 @@ public class ResultActivity extends AppCompatActivity{
         Button btn2 = this.findViewById(R.id.close_friend);
         TextView view = this.findViewById(R.id.result_user);
 
+        final Map<String, Object> friend = new HashMap<>();
+        friend.put("close", true);
+        friend.put("money", 0);
+
 
         Intent intent = getIntent();
         final String message = intent.getStringExtra(SearchActivity.extraMessage);
@@ -55,7 +59,7 @@ public class ResultActivity extends AppCompatActivity{
                 setTitle("Added as Friend");
                 Log.i("widgetDemo", "Added as Friend");
                 mColRef_add
-                        .add(message)
+                        .add(friend)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {

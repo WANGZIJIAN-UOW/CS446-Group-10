@@ -57,8 +57,6 @@ public class SearchActivity extends AppCompatActivity {
         mListView.setTextFilterEnabled(true);
         button = (Button) findViewById(R.id.search);
 
-
-
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
