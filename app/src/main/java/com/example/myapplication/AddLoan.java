@@ -210,16 +210,16 @@ public class AddLoan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_loan2);
-        username = getIntent().getExtras().getString("username");
+        username = getIntent().getExtras().getString("email");
         confirmLoan = (Button) findViewById(R.id.confirmLoan);
         confirmLoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loanName = (EditText) findViewById(R.id.loanName);
                 loanMoney = (EditText) findViewById(R.id.loanMoney);
-                //if(!loanName.getText().toString().isEmpty() && !loanMoney.getText().toString().isEmpty()) {
+                if(!loanName.getText().toString().isEmpty() && !loanMoney.getText().toString().isEmpty()) {
                     addNewLoan2db(username, loanName.getText().toString(), loanMoney.getText().toString());
-                //}
+                }
             }
         });
 
@@ -237,7 +237,7 @@ public class AddLoan extends AppCompatActivity {
         addDebt(username, name, Double.parseDouble(amount));
 
         Intent intent = new Intent(this, AddLoanActivity.class);
-        intent.putExtra("username", username);
+        intent.putExtra("email", username);
         startActivity(intent);
 
     }
