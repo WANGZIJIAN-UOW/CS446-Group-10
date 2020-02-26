@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
 
 import java.util.ArrayList;
@@ -27,11 +28,14 @@ public class ShowBalance extends AppCompatActivity {
     private static final String TAG = SignUpActivity.class.getName();
     private String username;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListenerl;
     private CollectionReference mDocRef;
     public ArrayList<Contact> contacts = new ArrayList<Contact>();
 
     private Button loans;
     private Button gosearch;
+    private Button logout;
 
     public double getOwedBalance() {
         double positive = 0.0;
@@ -77,6 +81,15 @@ public class ShowBalance extends AppCompatActivity {
             }
         });
 
+        logout = findViewById(R.id.logOut1);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intToMain = new Intent(ShowBalance.this, MainActivity.class);
+                startActivity(intToMain);
+            }
+        });
 
 
     }
