@@ -86,16 +86,6 @@ public class AddLoanActivity extends AppCompatActivity {
 
         arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,arrayList);
         listView.setAdapter(arrayAdapter);
-
-
-
-
-
-
-
-
-
-
     }
     public void openAddLoan(){
         Intent intent = new Intent(this, AddLoan.class);
