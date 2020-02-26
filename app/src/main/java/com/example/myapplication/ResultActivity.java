@@ -6,16 +6,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -41,6 +40,8 @@ public class ResultActivity extends AppCompatActivity{
         Button btn2 = this.findViewById(R.id.close_friend);
         TextView view = this.findViewById(R.id.result_user);
 
+        CircularImageView c = (CircularImageView) findViewById(R.id.profileImage);
+        c.setBorderWidth(10);
         final Map<String, Object> friend = new HashMap<>();
         friend.put("close", true);
         friend.put("money", 0);
@@ -60,13 +61,13 @@ public class ResultActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
-                setTitle("Added as Friend");
                 Log.i("widgetDemo", "Added as Friend");
                 mColRef_add.document("/"+message)
                         .set(friend)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
+                                Toast.makeText(ResultActivity.this, "You've added a friend", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "Added friend success");
                             }
                         })
@@ -99,16 +100,13 @@ public class ResultActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
-                String close_friend = "Change to Close Friend";
-                //CoordinatorLayout close =  ;
-                setTitle("Change to Close Friend");
-                //Snackbar mySnackbar = Snackbar.make(close, close_friend, Snackbar.LENGTH_SHORT);
                 Log.i("widgetDemo", "Changed to Close Friend");
                 mDocRef.update("close", true)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                Toast.makeText(ResultActivity.this, "You've added a close friend", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "Added a close friend");
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
