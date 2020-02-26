@@ -46,7 +46,7 @@ public class ResultActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         final String message = intent.getStringExtra(SearchActivity.extraMessage);
-        cur_user = getIntent().getExtras().getString("username");
+        String cur_user = getIntent().getExtras().getString("email");
 
         view.setText(message);
         Log.i(TAG, "onCreate: " + message);
@@ -58,12 +58,12 @@ public class ResultActivity extends AppCompatActivity{
                 //TODO Auto-generated method stub
                 setTitle("Added as Friend");
                 Log.i("widgetDemo", "Added as Friend");
-                mColRef_add
-                        .add(friend)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                mColRef_add.document("/"+message)
+                        .set(friend)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Added friend success");
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -81,8 +81,8 @@ public class ResultActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
-                setTitle("Added as Close Friend");
-                Log.i("widgetDemo", "Added as Close Friend");
+                setTitle("Change to Close Friend");
+                Log.i("widgetDemo", "Changed to Close Friend");
                 mDocRef.update("close", true)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
