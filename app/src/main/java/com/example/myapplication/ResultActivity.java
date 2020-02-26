@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,13 +59,13 @@ public class ResultActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
-                setTitle("Added as Friend");
                 Log.i("widgetDemo", "Added as Friend");
                 mColRef_add.document("/"+message)
                         .set(friend)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
+                                Toast.makeText(ResultActivity.this, "You've added a friend", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "Added friend success");
                             }
                         })
@@ -97,13 +98,13 @@ public class ResultActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
-                setTitle("Change to Close Friend");
                 Log.i("widgetDemo", "Changed to Close Friend");
                 mDocRef.update("close", true)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                Toast.makeText(ResultActivity.this, "You've added a close friend", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "Added a close friend");
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

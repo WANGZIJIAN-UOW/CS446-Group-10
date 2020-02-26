@@ -59,10 +59,10 @@ public class MainActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if(mFirebaseUser != null){
-                    Toast.makeText(MainActivity.this, "You are logged In", Toast.LENGTH_SHORT);
+                    Toast.makeText(MainActivity.this, "You are logged In", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(MainActivity.this, "Please log in", Toast.LENGTH_SHORT);
+                    Toast.makeText(MainActivity.this, "Please log in", Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 final String email = emailView.getText().toString();
                 final String password = passwordView.getText().toString();
                 if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(MainActivity.this,"Some fields are empty!",Toast.LENGTH_SHORT);
+                    Toast.makeText(MainActivity.this,"Some fields are empty!",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if(!email.isEmpty() && !password.isEmpty()){
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(!task.isSuccessful()){
-                                Toast.makeText(MainActivity.this, "Login Error!", Toast.LENGTH_SHORT);
+                                Toast.makeText(MainActivity.this, "Login Error!", Toast.LENGTH_SHORT).show();
 
                             }
                             else{
