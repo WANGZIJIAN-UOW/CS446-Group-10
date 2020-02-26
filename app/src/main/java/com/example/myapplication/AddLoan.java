@@ -206,10 +206,14 @@ public class AddLoan extends AppCompatActivity {
         data.put("Creditor", name);
         data.put("Debtor", username);
 
-        db.collection("Loans").add(data);
-        Intent intent = new Intent(this, AddLoanActivity.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
+        if(amount.isEmpty() || name.isEmpty()){}
+        else {
+
+            db.collection("Loans").add(data);
+            Intent intent = new Intent(this, AddLoanActivity.class);
+            intent.putExtra("username", username);
+            startActivity(intent);
+        }
 
     }
 }
