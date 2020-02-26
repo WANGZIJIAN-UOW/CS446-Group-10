@@ -46,12 +46,14 @@ public class ResultActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         final String message = intent.getStringExtra(SearchActivity.extraMessage);
-        String cur_user = getIntent().getExtras().getString("email");
+        final String cur_user = getIntent().getExtras().getString("email");
 
         view.setText(message);
         Log.i(TAG, "onCreate: " + message);
 
         final CollectionReference mColRef_add = db.collection("contact/" + cur_user + "/list");
+        final CollectionReference mColRef_add_reverse = db.collection("contact/" + message + "/list");
+
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +61,20 @@ public class ResultActivity extends AppCompatActivity{
                 setTitle("Added as Friend");
                 Log.i("widgetDemo", "Added as Friend");
                 mColRef_add.document("/"+message)
+                        .set(friend)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Added friend success");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error adding document", e);
+                            }
+                        });
+                mColRef_add_reverse.document("/"+cur_user)
                         .set(friend)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
