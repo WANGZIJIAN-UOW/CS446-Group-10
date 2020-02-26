@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SearchActivity extends AppCompatActivity {
 
+    String cur_user = getIntent().getExtras().getString("username");
+
     public void setContentView(View view) {
         getWindow().setContentView(view);
     }
@@ -55,12 +57,14 @@ public class SearchActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.search);
 
 
+
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SearchActivity.this, ResultActivity.class);
                 Log.i(TAG, "onClick: " + mSearchView.getQuery().toString());
                 intent.putExtra(extraMessage, mSearchView.getQuery().toString());
+                intent.putExtra("username", cur_user);
                 startActivity(intent);
             }
         });

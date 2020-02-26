@@ -32,8 +32,6 @@ public class ResultActivity extends AppCompatActivity{
     //private CollectionReference mColRef = db.collection("user/");
     //private CollectionReference mColRef_add = db.collection("contact/" + cur_user + "/list");
 
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
@@ -44,6 +42,7 @@ public class ResultActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         final String message = intent.getStringExtra(SearchActivity.extraMessage);
+        cur_user = getIntent().getExtras().getString("username");
 
         view.setText(message);
         Log.i(TAG, "onCreate: " + message);
@@ -69,8 +68,6 @@ public class ResultActivity extends AppCompatActivity{
                                 Log.w(TAG, "Error adding document", e);
                             }
                         });
-
-
             }
         });
 
@@ -97,8 +94,6 @@ public class ResultActivity extends AppCompatActivity{
                         });
             }
         });
-
-
 
     }
 

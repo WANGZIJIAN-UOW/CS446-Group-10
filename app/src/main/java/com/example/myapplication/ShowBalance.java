@@ -31,6 +31,7 @@ public class ShowBalance extends AppCompatActivity {
     public ArrayList<Contact> contacts = new ArrayList<Contact>();
 
     private Button loans;
+    private Button gosearch;
 
     public double getOwedBalance() {
         double positive = 0.0;
@@ -68,6 +69,16 @@ public class ShowBalance extends AppCompatActivity {
             }
         });
 
+        gosearch = findViewById(R.id.gosearch);
+        gosearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GoSearch();
+            }
+        });
+
+
+
     }
 
     public void fillBalances() {
@@ -98,6 +109,12 @@ public class ShowBalance extends AppCompatActivity {
 
     public void openLoans(){
         Intent intent = new Intent(this, AddLoanActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
+    }
+
+    public void GoSearch(){
+        Intent intent = new Intent(this, SearchActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);
     }

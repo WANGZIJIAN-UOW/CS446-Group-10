@@ -55,4 +55,12 @@
         android:layout_marginBottom="0dp"
         android:text="Laons" />
 
+    <Button
+        android:id="@+id/gosearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/loans"
+        android:layout_marginBottom="7dp"
+        android:text="Search" />
+
 </android.widget.RelativeLayout>
