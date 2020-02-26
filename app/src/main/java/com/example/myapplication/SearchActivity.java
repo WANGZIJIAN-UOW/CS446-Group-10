@@ -49,7 +49,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         mSearchView = (SearchView) findViewById(R.id.searchView2);
-        cur_user = getIntent().getExtras().getString("username");
+        cur_user = getIntent().getExtras().getString("email");
 
         mListView = (ListView) findViewById(R.id.mylist);
         ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data());
@@ -57,15 +57,13 @@ public class SearchActivity extends AppCompatActivity {
         mListView.setTextFilterEnabled(true);
         button = (Button) findViewById(R.id.search);
 
-
-
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SearchActivity.this, ResultActivity.class);
                 Log.i(TAG, "onClick: " + mSearchView.getQuery().toString());
                 intent.putExtra(extraMessage, mSearchView.getQuery().toString());
-                intent.putExtra("username", cur_user);
+                intent.putExtra("email", cur_user);
                 startActivity(intent);
             }
         });
