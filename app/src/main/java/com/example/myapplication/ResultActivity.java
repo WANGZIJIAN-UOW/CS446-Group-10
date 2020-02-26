@@ -6,15 +6,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -59,13 +60,13 @@ public class ResultActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
+                setTitle("Added as Friend");
                 Log.i("widgetDemo", "Added as Friend");
                 mColRef_add.document("/"+message)
                         .set(friend)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(ResultActivity.this, "You've added a friend", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "Added friend success");
                             }
                         })
@@ -98,13 +99,16 @@ public class ResultActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
+                String close_friend = "Change to Close Friend";
+                //CoordinatorLayout close =  ;
+                setTitle("Change to Close Friend");
+                //Snackbar mySnackbar = Snackbar.make(close, close_friend, Snackbar.LENGTH_SHORT);
                 Log.i("widgetDemo", "Changed to Close Friend");
                 mDocRef.update("close", true)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(ResultActivity.this, "You've added a close friend", Toast.LENGTH_SHORT).show();
-                                Log.d(TAG, "Added a close friend");
+                                Log.d(TAG, "DocumentSnapshot successfully updated!");
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
