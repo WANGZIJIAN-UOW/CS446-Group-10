@@ -44,7 +44,7 @@ public class AddLoanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_loan);
 
-        username = getIntent().getExtras().getString("username");
+        username = getIntent().getExtras().getString("email");
 
         //mDatabase = FirebaseDatabase.getInstance().getReference("Loans");
         listView = (ListView)findViewById(R.id.loanList);
@@ -89,12 +89,12 @@ public class AddLoanActivity extends AppCompatActivity {
     }
     public void openAddLoan(){
         Intent intent = new Intent(this, AddLoan.class);
-        intent.putExtra("username", username);
+        intent.putExtra("email", username);
         startActivity(intent);
     }
     public void openBalance(){
         Intent intent = new Intent(this, ShowBalance.class);
-        intent.putExtra("username", username);
+        intent.putExtra("email", username);
         startActivity(intent);
     }
 

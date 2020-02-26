@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,10 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,22 +27,43 @@ public class AddLoan extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String username;
 
-    /*public static void addDebt(String receive, String send, double value) {
-
-        for (int i = 0; i < contacts[cReceive].list.size(); i++) {
-            if (send.equals(contacts[cReceive].list.get(i).contact)) {
-                contacts[cReceive].list.get(i).addMoney(value);
-            }
-        }
-
-        for (int i = 0; i < contacts[cSend].list.size(); i++) {
-            if (receive.equals(contacts[cSend].list.get(i).contact)) {
-                contacts[cSend].list.get(i).addMoney(value * -1);
-            }
-        }
-        //simpleDebt(contacts, receive, send);
+    public static class Contact {
+        public String contact;
+        public boolean close;
+        public double money;
+        public Contact() { }
     }
 
+    public Map<String, Object> updateDebt(boolean close, double money) {
+        Map<String, Object> dataToUpdate = new HashMap<String, Object>();
+        dataToUpdate.put("close", true);
+        dataToUpdate.put("money", money);
+        return dataToUpdate;
+    }
+
+    public void addDebt(final String receive, final String send, final double value) {
+        final double[] receiveToSend = new double[1];
+        final double[] sendToReceive = new double[1];
+        db.collection("contact").document(receive)
+                .collection("list").document(send).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                Contact contact =  new Contact();
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        contact = document.toObject(Contact.class);
+                    }
+                }
+                db.collection("contact").document(receive)
+                        .collection("list").document(send).update(updateDebt(true,  contact.money + value));
+                db.collection("contact").document(send)
+                        .collection("list").document(receive).update(updateDebt(true, (contact.money * -1) + (value * -1)));
+            }
+        });
+        //simpleDebt(contacts, receive, send);
+    }
+    /*
     public static int getPrimary(Contacts contacts[], String target) {
         for (int i = 0; i < contacts.length; i++) {
             if (contacts[i].user.equals(target)) {
@@ -193,9 +217,7 @@ public class AddLoan extends AppCompatActivity {
             public void onClick(View v) {
                 loanName = (EditText) findViewById(R.id.loanName);
                 loanMoney = (EditText) findViewById(R.id.loanMoney);
-                if(!loanName.getText().toString().isEmpty() && !loanMoney.getText().toString().isEmpty()) {
-                    addNewLoan2db(username, loanName.getText().toString(), loanMoney.getText().toString());
-                }
+                addNewLoan2db(username,loanName.getText().toString(), loanMoney.getText().toString());
             }
         });
 
@@ -208,9 +230,10 @@ public class AddLoan extends AppCompatActivity {
         data.put("Creditor", name);
         data.put("Debtor", username);
 
-
-
         db.collection("Loans").add(data);
+
+        addDebt(username, name, Double.parseDouble(amount));
+
         Intent intent = new Intent(this, AddLoanActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);

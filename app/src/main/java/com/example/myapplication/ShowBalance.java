@@ -57,7 +57,7 @@ public class ShowBalance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_balance);
-        username = getIntent().getExtras().getString("username");
+        username = getIntent().getExtras().getString("email");
         mDocRef = db.collection("contact/" + username + "/list");
         fillBalances();
 
@@ -109,13 +109,13 @@ public class ShowBalance extends AppCompatActivity {
 
     public void openLoans(){
         Intent intent = new Intent(this, AddLoanActivity.class);
-        intent.putExtra("username", username);
+        intent.putExtra("email", username);
         startActivity(intent);
     }
 
     public void GoSearch(){
         Intent intent = new Intent(this, SearchActivity.class);
-        intent.putExtra("username", username);
+        intent.putExtra("email", username);
         startActivity(intent);
     }
 

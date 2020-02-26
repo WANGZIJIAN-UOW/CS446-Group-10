@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                             else{
                                 Log.d(TAG,"Log in Successful.");
                                 Intent intent = new Intent(getApplicationContext(), ShowBalance.class);
-                                intent.putExtra("username", email);
+                                intent.putExtra("email", email);
                                 startActivity(intent);
                             }
                         }
