@@ -59,10 +59,10 @@ public class MainActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if(mFirebaseUser != null){
-                    Toast.makeText(MainActivity.this, "You are logged In", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "You are logged In", Toast.LENGTH_SHORT);
                 }
                 else{
-                    Toast.makeText(MainActivity.this, "Please log in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Please log in", Toast.LENGTH_SHORT);
                 }
             }
         };

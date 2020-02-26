@@ -48,6 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
                 goMain();
             }
         });
+        setTitle("Sign Up");
     }
 
     public void signUp(View view) {
