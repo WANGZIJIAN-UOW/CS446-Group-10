@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShowBalance extends AppCompatActivity {
 
@@ -24,6 +28,13 @@ public class ShowBalance extends AppCompatActivity {
         public boolean close;
         public double money;
         public Contact() { }
+    }
+
+    public Map<String, Object> updateDebt(boolean close, double money) {
+        Map<String, Object> dataToUpdate = new HashMap<String, Object>();
+        dataToUpdate.put("close", true);
+        dataToUpdate.put("money", money);
+        return dataToUpdate;
     }
 
     private static final String TAG = SignUpActivity.class.getName();
@@ -37,6 +48,8 @@ public class ShowBalance extends AppCompatActivity {
     private Button loans;
     private Button gosearch;
     private Button logout;
+    private TextView owedBalance;
+    private Button outstandingBalance;
 
     public double getOwedBalance() {
         double positive = 0.0;
@@ -64,6 +77,9 @@ public class ShowBalance extends AppCompatActivity {
         setContentView(R.layout.show_balance);
         username = getIntent().getExtras().getString("email");
         mDocRef = db.collection("contact/" + username + "/list");
+        owedBalance = (TextView)findViewById(R.id.owedBalance);
+        outstandingBalance = (Button)findViewById(R.id.outstandingBalance);
+
         fillBalances();
 
         loans = (Button) findViewById(R.id.loans);
@@ -93,7 +109,28 @@ public class ShowBalance extends AppCompatActivity {
             }
         });
 
-
+        outstandingBalance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog alertDialog = new AlertDialog.Builder(ShowBalance.this).create();
+                alertDialog.setTitle("Confirmation Screen");
+                alertDialog.setMessage("Do you wish to settle all your debts?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                payDebts();
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+        });
     }
 
     public void fillBalances() {
@@ -108,11 +145,9 @@ public class ShowBalance extends AppCompatActivity {
                             if (!document.getId().equals(username))
                                 contacts.add(contact);
 
-                            TextView owedBalance = (TextView)findViewById(R.id.owedBalance);
                             String owedBalanceAmount = "$" + getOwedBalance();
                             owedBalance.setText(owedBalanceAmount);
 
-                            TextView outstandingBalance = (TextView)findViewById(R.id.outstandingBalance);
                             String outstandingBalanceAmount = "$" + getOutstandingBalance();
                             outstandingBalance.setText(outstandingBalanceAmount);
                         }
@@ -120,6 +155,20 @@ public class ShowBalance extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void payDebts() {
+        for (int i = 0; i < contacts.size(); i++) {
+            if (contacts.get(i).money < 0) {
+                db.collection("contact").document(username)
+                        .collection("list").document(contacts.get(i).contact).update(updateDebt(true,  0));
+                db.collection("contact").document(contacts.get(i).contact)
+                        .collection("list").document(username).update(updateDebt(true, 0));
+            }
+        }
+        Intent intent = new Intent(this, ShowBalance.class);
+        intent.putExtra("email", username);
+        startActivity(intent);
     }
 
     public void openLoans(){
