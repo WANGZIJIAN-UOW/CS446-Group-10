@@ -55,7 +55,7 @@
         android:textColor="@android:color/holo_green_light"
         android:textSize="36sp" />
 
-    <TextView
+    <Button
         android:id="@+id/outstandingBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,6 +63,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="25dp"
         android:textColor="@android:color/holo_red_dark"
+        android:background="@android:color/transparent"
         android:textSize="36sp" />
 
     <Button
