@@ -48,7 +48,8 @@ public class ShowBalance extends AppCompatActivity {
     private Button loans;
     private Button gosearch;
     private Button logout;
-    private TextView owedBalance;
+    private Button payDebts;
+    private Button owedBalance;
     private Button outstandingBalance;
 
     public double getOwedBalance() {
@@ -77,7 +78,8 @@ public class ShowBalance extends AppCompatActivity {
         setContentView(R.layout.show_balance);
         username = getIntent().getExtras().getString("email");
         mDocRef = db.collection("contact/" + username + "/list");
-        owedBalance = (TextView)findViewById(R.id.owedBalance);
+
+        owedBalance = (Button)findViewById(R.id.owedBalance);
         outstandingBalance = (Button)findViewById(R.id.outstandingBalance);
 
         fillBalances();
@@ -109,26 +111,40 @@ public class ShowBalance extends AppCompatActivity {
             }
         });
 
-        outstandingBalance.setOnClickListener(new View.OnClickListener() {
+        payDebts = (Button)findViewById(R.id.payDebts);
+        payDebts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog alertDialog = new AlertDialog.Builder(ShowBalance.this).create();
-                alertDialog.setTitle("Confirmation Screen");
-                alertDialog.setMessage("Do you wish to settle all your debts?");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                payDebts();
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
+                if (getOutstandingBalance() == 0.0) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(ShowBalance.this).create();
+                    alertDialog.setTitle("Info Screen");
+                    alertDialog.setMessage("You have no debts to settle!");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                } else {
+                    AlertDialog alertDialog = new AlertDialog.Builder(ShowBalance.this).create();
+                    alertDialog.setTitle("Confirmation Screen");
+                    alertDialog.setMessage("Do you wish to settle all your debts?");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    payDebts();
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
             }
         });
     }
@@ -147,9 +163,24 @@ public class ShowBalance extends AppCompatActivity {
 
                             String owedBalanceAmount = "$" + getOwedBalance();
                             owedBalance.setText(owedBalanceAmount);
-
+                            if (getOwedBalance() != 0.0) {
+                                owedBalance.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        openFullBalance("Owed");
+                                    }
+                                });
+                            }
                             String outstandingBalanceAmount = "$" + getOutstandingBalance();
                             outstandingBalance.setText(outstandingBalanceAmount);
+                            if (getOutstandingBalance() != 0.0) {
+                                outstandingBalance.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        openFullBalance("Outstanding");
+                                    }
+                                });
+                            }
                         }
                     }
                 }
@@ -180,6 +211,13 @@ public class ShowBalance extends AppCompatActivity {
     public void GoSearch(){
         Intent intent = new Intent(this, SearchActivity.class);
         intent.putExtra("email", username);
+        startActivity(intent);
+    }
+
+    public void openFullBalance(String status){
+        Intent intent = new Intent(this, FullBalance.class);
+        intent.putExtra("email", username);
+        intent.putExtra("status", status);
         startActivity(intent);
     }
 
