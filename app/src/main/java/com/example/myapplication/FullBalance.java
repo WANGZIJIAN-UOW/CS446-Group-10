@@ -8,11 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,7 +31,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FullBalance extends AppCompatActivity {
 
@@ -46,9 +51,8 @@ public class FullBalance extends AppCompatActivity {
     private String username;
     private String status;
     private CollectionReference mDocRef;
-
+    private ArrayList<Contact> contacts = new ArrayList<Contact>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    List<String> data = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,31 +63,9 @@ public class FullBalance extends AppCompatActivity {
         status = getIntent().getExtras().getString("status");
         mDocRef = db.collection("contact/" + username + "/list");
         mListView = (ListView) findViewById(R.id.mylist);
+        manualSettle = (Button)findViewById(R.id.manualSettle);
 
         fillData();
-
-        /*manualSettle = (Button)findViewById(R.id.manualSettle);
-        manualSettle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog alertDialog = new AlertDialog.Builder(FullBalance.this).create();
-                alertDialog.setTitle("Confirmation Screen");
-                alertDialog.setMessage("Do you wish to settle all your debts?");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-            }
-        });*/
 
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -104,27 +86,47 @@ public class FullBalance extends AppCompatActivity {
                         if (document.exists()) {
                             Contact contact = document.toObject(Contact.class);
                             contact.contact = document.getId();
+
                             if (contact.money != 0.0) {
                                 if (status.equals("Owed") && contact.money > 0.0) {
-                                    String balance = contact.contact + ": $" + contact.money;
-                                    data.add(balance);
+                                    contacts.add(contact);
                                 } else if (status.equals("Outstanding") && contact.money < 0.0) {
-                                    String balance = contact.contact + ": $" + (contact.money * -1);
-                                    data.add(balance);
+                                    contacts.add(contact);
+                                    manualSettle.setVisibility(View.VISIBLE);
                                 }
                             }
                         }
                     }
                     setList();
+                    manualSettleUser();
                 }
             }
         });
     }
 
     public void setList() {
+        List<String> data = new ArrayList<String>();
+        for (int i = 0; i < contacts.size(); i++) {
+            if (status.equals("Owed")) {
+                String balance = contacts.get(i).contact + ": $" + contacts.get(i).money;
+                data.add(balance);
+            } else if (status.equals("Outstanding")) {
+                String balance = contacts.get(i).contact + ": $" + (contacts.get(i).money * -1);
+                data.add(balance);
+            }
+        }
         ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data);
         mListView.setAdapter(adapter);
         mListView.setTextFilterEnabled(true);
+    }
+
+    public ArrayAdapter getDropDown() {
+        List<String> data = new ArrayList<String>();
+        for (int i = 0; i < contacts.size(); i++) {
+            data.add(contacts.get(i).contact);
+        }
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_singlechoice, data);
+        return adapter;
     }
 
     public void openBalance(){
@@ -133,4 +135,71 @@ public class FullBalance extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void manualSettleUser() {
+        manualSettle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(FullBalance.this);
+                builder.setTitle("Select User for Manual Debt Settlement");
+
+                ArrayAdapter<String> dataAdapter = getDropDown();
+                builder.setAdapter(dataAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        manualSettleAmount(which);
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+    public void manualSettleAmount(final int i) {
+        final EditText amount = new EditText(this);
+        amount.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
+
+        AlertDialog alertDialog = new AlertDialog.Builder(FullBalance.this).create();
+        alertDialog.setTitle("Confirmation Screen");
+        alertDialog.setMessage("Enter amount for " + contacts.get(i).contact);
+        alertDialog.setView(amount);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateDebtWrapper(i, Double.parseDouble(amount.getText().toString()));
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    public Map<String, Object> updateDebt(boolean close, double money) {
+        Map<String, Object> dataToUpdate = new HashMap<String, Object>();
+        dataToUpdate.put("close", true);
+        dataToUpdate.put("money", money);
+        return dataToUpdate;
+    }
+
+    public void updateDebtWrapper(final int i, double amount) {
+        if (amount >= (contacts.get(i).money *  -1)) {
+            db.collection("contact").document(username)
+                    .collection("list").document(contacts.get(i).contact).update(updateDebt(true,  0));
+            db.collection("contact").document(contacts.get(i).contact)
+                    .collection("list").document(username).update(updateDebt(true, 0));
+        } else {
+            db.collection("contact").document(username)
+                    .collection("list").document(contacts.get(i).contact).update(updateDebt(true,  contacts.get(i).money + amount));
+            db.collection("contact").document(contacts.get(i).contact)
+                    .collection("list").document(username).update(updateDebt(true, (contacts.get(i).money + amount) * -1));
+        }
+        Intent intent = new Intent(this, ShowBalance.class);
+        intent.putExtra("email", username);
+        startActivity(intent);
+    }
 }

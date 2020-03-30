@@ -49,6 +49,7 @@ public class ShowBalance extends AppCompatActivity {
     private Button gosearch;
     private Button logout;
     private Button payDebts;
+    private Button history;
     private Button owedBalance;
     private Button outstandingBalance;
 
@@ -97,6 +98,14 @@ public class ShowBalance extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 GoSearch();
+            }
+        });
+
+        history = findViewById(R.id.history);
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openHistory();
             }
         });
 
@@ -218,6 +227,12 @@ public class ShowBalance extends AppCompatActivity {
         Intent intent = new Intent(this, FullBalance.class);
         intent.putExtra("email", username);
         intent.putExtra("status", status);
+        startActivity(intent);
+    }
+
+    public void openHistory(){
+        Intent intent = new Intent(this, HistoryLoans.class);
+        intent.putExtra("email", username);
         startActivity(intent);
     }
 

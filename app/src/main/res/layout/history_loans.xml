@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FullBalance">
+    tools:context=".HistoryLoans">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,23 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/manualSettle"
-        android:layout_width="405dp"
-        android:layout_height="66dp"
-        android:layout_above="@+id/back"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginBottom="9dp"
-        android:background="@color/colorPrimary"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="Manual Entry"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
     <ListView
         android:id="@+id/mylist"
