@@ -6,10 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,6 +51,7 @@ public class ShowBalance extends AppCompatActivity {
     private Button history;
     private Button owedBalance;
     private Button outstandingBalance;
+    private ImageButton setting;
 
     public double getOwedBalance() {
         double positive = 0.0;
@@ -106,6 +106,14 @@ public class ShowBalance extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openHistory();
+            }
+        });
+
+        setting = findViewById(R.id.settingBtn);
+        setting.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                GoSetting();
             }
         });
 
@@ -219,6 +227,11 @@ public class ShowBalance extends AppCompatActivity {
 
     public void GoSearch(){
         Intent intent = new Intent(this, SearchActivity.class);
+        intent.putExtra("email", username);
+        startActivity(intent);
+    }
+    public void GoSetting(){
+        Intent intent = new Intent(this, SettingsActivity.class);
         intent.putExtra("email", username);
         startActivity(intent);
     }

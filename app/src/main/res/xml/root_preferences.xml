@@ -1,0 +1,50 @@
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="General">
+        <EditTextPreference
+            app:defaultValue="@string/default_gallery_storage"
+            app:key="@string/key_gallery_name"
+            app:summary="@string/default_gallery_storage"
+            app:title="@string/title_gallery_storage" />
+
+        <CheckBoxPreference
+            app:defaultValue="true"
+            app:summary="@string/summary_sync_contact_list"
+            app:title="@string/title_auto_upload" />
+
+        <ListPreference
+            app:defaultValue="3"
+            app:dialogTitle="@string/title_upload_quality"
+            app:entries="@array/pref_upload_quality_entries"
+            app:entryValues="@array/pref_upload_quality_values"
+            app:key="@string/key_upload_quality"
+            app:summary="@string/summary_upload_video_quality"
+            app:title="@string/title_upload_quality" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/pref_title_notifications">
+
+        <SwitchPreference
+            app:defaultValue="true"
+            app:key="@string/notifications_new_message"
+            app:title="@string/title_new_notification_sound" />
+
+
+        <SwitchPreference
+            app:defaultValue="true"
+            app:key="@string/key_vibrate"
+            app:summary="@string/summary_vibrate"
+            app:title="@string/title_vibrate" />
+    </PreferenceCategory>
+
+<!--    <SwitchPreferenceCompat-->
+<!--        app:key="notifications"-->
+<!--        app:title="Enable message notifications"/>-->
+
+    <Preference
+        app:key="feedback"
+        app:title="Send feedback"
+        app:summary="Report technical issues or suggest new features"/>
+
+</PreferenceScreen>
