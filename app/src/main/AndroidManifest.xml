@@ -9,15 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddLoan"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
+        <activity android:name=".AddLoan" />
         <activity android:name=".AddLoanActivity" />
         <activity android:name=".ShowBalance" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".ResultActivity" />
-        <activity android:name=".ContactActivityNew" />
-        <activity android:name=".ContactItem" />
-        <activity android:name=".ContactAdapter" />
+        <activity android:name=".FullBalance" />
+        <activity android:name=".HistoryLoans" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
