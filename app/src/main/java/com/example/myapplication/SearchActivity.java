@@ -39,7 +39,8 @@ public class SearchActivity extends AppCompatActivity {
     //String[] mStrs = {"Helen", "Helen2", "Helen3", "Helen4"};
     private SearchView mSearchView;
     private ListView mListView;
-    private Button button;
+    private Button button1;
+    private Button button2;
     public static final String extraMessage = "com.example.android.twoactivities.extra.MESSAGE";
     // private CollectionReference cities = db.collection("cities");
     //private DocumentReference docRef = db.collection("cities").document("SF");
@@ -55,9 +56,10 @@ public class SearchActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data());
         mListView.setAdapter(adapter);
         mListView.setTextFilterEnabled(true);
-        button = (Button) findViewById(R.id.search);
+        button1 = (Button) findViewById(R.id.search);
+        button2 = (Button) findViewById(R.id.go_list);
 
-        button.setOnClickListener(new OnClickListener() {
+        button1.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SearchActivity.this, ResultActivity.class);
@@ -65,6 +67,17 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra(extraMessage, mSearchView.getQuery().toString());
                 intent.putExtra("email", cur_user);
                 startActivity(intent);
+            }
+        });
+
+        button2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(SearchActivity.this, ContactActivityNew.class);
+                //Log.i(TAG, "onClick: " + mSearchView.getQuery().toString());
+                //intent2.putExtra(extraMessage, mSearchView.getQuery().toString());
+                intent2.putExtra("email", cur_user);
+                startActivity(intent2);
             }
         });
 

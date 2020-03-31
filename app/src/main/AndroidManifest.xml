@@ -15,6 +15,9 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".ResultActivity" />
+        <activity android:name=".ContactActivityNew" />
+        <activity android:name=".ContactItem" />
+        <activity android:name=".ContactAdapter" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

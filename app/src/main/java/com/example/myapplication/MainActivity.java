@@ -92,7 +92,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goSignUp(){
+        final String email = emailView.getText().toString();
         Intent intent = new Intent(this, SignUpActivity.class);
+        //intent.putExtra("email", email);
         startActivity(intent);
     }
 
