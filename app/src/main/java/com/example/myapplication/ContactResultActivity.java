@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ResultActivity extends AppCompatActivity{
+public class ContactResultActivity extends AppCompatActivity{
     private static final String TAG = "secondActivity";
     private String cur_user;
 
@@ -72,7 +72,7 @@ public class ResultActivity extends AppCompatActivity{
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(ResultActivity.this, "You've added a friend", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ContactResultActivity.this, "You've added a friend", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "Added friend success");
                             }
                         })
@@ -110,7 +110,7 @@ public class ResultActivity extends AppCompatActivity{
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(ResultActivity.this, "You've added a close friend", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ContactResultActivity.this, "You've added a close friend", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "Added a close friend");
                             }
                         })

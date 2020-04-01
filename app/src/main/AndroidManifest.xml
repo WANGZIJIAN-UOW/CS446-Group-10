@@ -14,6 +14,9 @@
             android:label="@string/title_activity_settings"></activity>
         <activity android:name=".AddLoan" />
         <activity android:name=".AddLoanActivity" />
+        <activity android:name=".ContactActivityNew" />
+        <activity android:name=".ContactAdapter" />
+        <activity android:name=".ContactItem" />
         <activity android:name=".ShowBalance" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SearchActivity" />
