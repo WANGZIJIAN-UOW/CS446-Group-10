@@ -49,6 +49,7 @@ public class ShowBalance extends AppCompatActivity {
     private Button logout;
     private Button payDebts;
     private Button history;
+    private Button wallet;
     private Button owedBalance;
     private Button outstandingBalance;
     private ImageButton setting;
@@ -114,6 +115,14 @@ public class ShowBalance extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 GoSetting();
+            }
+        });
+
+        wallet = findViewById(R.id.myWallet);
+        wallet.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                openWallet();
             }
         });
 
@@ -245,6 +254,12 @@ public class ShowBalance extends AppCompatActivity {
 
     public void openHistory(){
         Intent intent = new Intent(this, HistoryLoans.class);
+        intent.putExtra("email", username);
+        startActivity(intent);
+    }
+
+    public void openWallet() {
+        Intent intent = new Intent(this, MyWallet.class);
         intent.putExtra("email", username);
         startActivity(intent);
     }

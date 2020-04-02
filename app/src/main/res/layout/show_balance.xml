@@ -135,6 +135,19 @@
         android:fontFamily="sans-serif-smallcaps"
         android:text="History of Loans" />
 
+    <Button
+        android:id="@+id/myWallet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/history"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="7dp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="My Wallet"
+        android:textColor="@color/white" />
+
     <ImageButton
         android:id="@+id/settingBtn"
         android:layout_width="40dp"
