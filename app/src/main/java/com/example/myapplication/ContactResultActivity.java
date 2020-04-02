@@ -35,26 +35,17 @@ public class ContactResultActivity extends AppCompatActivity{
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result);
-        Button btn1 = this.findViewById(R.id.friend);
-        Button btn2 = this.findViewById(R.id.close_friend);
+        setContentView(R.layout.activity_contact_result);
+        Button btn1 = this.findViewById(R.id.remove_friend);
+        Button btn2 = this.findViewById(R.id.remove_close_friend);
         TextView view = this.findViewById(R.id.result_user);
 
         Intent intent = getIntent();
-        final String message = intent.getStringExtra(SearchActivity.extraMessage);
+        final String message = getIntent().getExtras().getString("friendname");
         final String cur_user = getIntent().getExtras().getString("email");
 
         CircularImageView c = (CircularImageView) findViewById(R.id.profileImage);
         c.setBorderWidth(10);
-        final Map<String, Object> friend = new HashMap<>();
-        friend.put("close", false);
-        friend.put("money", 0);
-        friend.put("name", message);
-
-        final Map<String, Object> friend_reverse = new HashMap<>();
-        friend_reverse.put("close", true);
-        friend_reverse.put("money", 0);
-        friend_reverse.put("name", cur_user);
 
         view.setText(message);
         Log.i(TAG, "onCreate: " + message);
@@ -68,11 +59,11 @@ public class ContactResultActivity extends AppCompatActivity{
                 //TODO Auto-generated method stub
                 Log.i("widgetDemo", "Added as Friend");
                 mColRef_add.document("/"+message)
-                        .set(friend)
+                        .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(ContactResultActivity.this, "You've added a friend", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ContactResultActivity.this, "You've removed a friend", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "Added friend success");
                             }
                         })
@@ -83,7 +74,7 @@ public class ContactResultActivity extends AppCompatActivity{
                             }
                         });
                 mColRef_add_reverse.document("/"+cur_user)
-                        .set(friend_reverse)
+                        .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -106,11 +97,11 @@ public class ContactResultActivity extends AppCompatActivity{
             public void onClick(View v) {
                 //TODO Auto-generated method stub
                 Log.i("widgetDemo", "Changed to Close Friend");
-                mDocRef.update("close", true)
+                mDocRef.update("close", false)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(ContactResultActivity.this, "You've added a close friend", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ContactResultActivity.this, "You've removed a close friend", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "Added a close friend");
                             }
                         })

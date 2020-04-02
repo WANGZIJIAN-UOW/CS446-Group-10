@@ -71,20 +71,6 @@ public class ContactAdapter extends ArrayAdapter<ContactItem> {
         viewHolder.CloseView.setText(String.valueOf(friend.getClose()));
         viewHolder.MoneyView.setText(String.valueOf(friend.getMoney()));
 
-        Button Button1= (Button)  convertView  .findViewById(R.id.user_home_page);
-        Button1.setFocusable(false);
-
-        Button1.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-
-
-
-            }
-
-        });
 
 
         // Return the completed view to render on screen

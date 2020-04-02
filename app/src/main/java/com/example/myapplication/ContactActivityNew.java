@@ -52,7 +52,6 @@ public class ContactActivityNew extends AppCompatActivity{
 
         final String cur_user2 = getIntent().getExtras().getString("email");
 
-
         db.collection("contact/" + cur_user2 + "/list/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -77,15 +76,18 @@ public class ContactActivityNew extends AppCompatActivity{
             }
         });
 
+        mContactListView.setClickable(true);
+
         mContactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ContactActivityNew.this, "selected the friend", Toast.LENGTH_LONG).show();
-                //Toast.makeText(ContactActivityNew.this,"你单击的是第"+(position+1)+"条数据",Toast.LENGTH_SHORT).show();
-                /*Intent intent = new Intent(ContactActivityNew.this,ContactResultActivity.class);
-                intent.putExtra("friendname",mContactList.get(position+1).getName());
+                //Toast.makeText(ContactActivityNew.this, "selected the friend", Toast.LENGTH_LONG).show();
+                Toast.makeText(ContactActivityNew.this,"you have selected "+mContactList.get(position).getName(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ContactActivityNew.this,ContactResultActivity.class);
+                intent.putExtra("email", cur_user2);
+                intent.putExtra("friendname",mContactList.get(position).getName());
                 startActivity(intent);
-                finish();*/
+                finish();
             }
         });
     }
