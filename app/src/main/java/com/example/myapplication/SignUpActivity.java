@@ -111,11 +111,14 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         }
                     });
-                   Map<String, Object> data = new HashMap<>();
-                    data.put("close", true);
-                    data.put("money", 0);
+                    Map<String, Object> contact = new HashMap<>();
+                    contact.put("close", true);
+                    contact.put("money", 0.0);
                     FirebaseFirestore.getInstance().collection("contact").document(email)
-                           .collection("list").document(email).set(data);
+                           .collection("list").document(email).set(contact);
+                    Map<String, Object> wallet = new HashMap<>();
+                    wallet.put("amount", 0);
+                    FirebaseFirestore.getInstance().collection("wallet").document(email).set(wallet);
                 }
 
             }

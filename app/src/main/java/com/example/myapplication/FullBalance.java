@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 //import com.google.firebase.database.FirebaseDatabase;
 //import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -41,7 +42,14 @@ public class FullBalance extends AppCompatActivity {
         public String contact;
         public boolean close;
         public double money;
+        public double wallet = 0.0;
         public Contact() { }
+    }
+
+    public static class wallet {
+        public String contact;
+        public double amount;
+        public wallet() { }
     }
 
     private static final String TAG = SignUpActivity.class.getName();
@@ -98,7 +106,7 @@ public class FullBalance extends AppCompatActivity {
                         }
                     }
                     setList();
-                    manualSettleUser();
+                    setWallets();
                 }
             }
         });
@@ -135,6 +143,28 @@ public class FullBalance extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void setWallets() {
+        db.collection("wallet").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            wallet wallet = document.toObject(wallet.class);
+
+                            for (int i = 0; i < contacts.size(); i++) {
+                                if (document.getId().equals(contacts.get(i).contact)) {
+                                    contacts.get(i).wallet = wallet.amount;
+                                }
+                            }
+                        }
+                    }
+                    manualSettleUser();
+                }
+            }
+        });
+    }
+
     public void manualSettleUser() {
         manualSettle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,7 +196,7 @@ public class FullBalance extends AppCompatActivity {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        updateDebtWrapper(i, Double.parseDouble(amount.getText().toString()));
+                        getWallet(i, Double.parseDouble(amount.getText().toString()));
                         dialog.dismiss();
                     }
                 });
@@ -186,20 +216,64 @@ public class FullBalance extends AppCompatActivity {
         return dataToUpdate;
     }
 
-    public void updateDebtWrapper(final int i, double amount) {
-        if (amount >= (contacts.get(i).money *  -1)) {
-            db.collection("contact").document(username)
-                    .collection("list").document(contacts.get(i).contact).update(updateDebt(true,  0));
-            db.collection("contact").document(contacts.get(i).contact)
-                    .collection("list").document(username).update(updateDebt(true, 0));
-        } else {
-            db.collection("contact").document(username)
-                    .collection("list").document(contacts.get(i).contact).update(updateDebt(true,  contacts.get(i).money + amount));
-            db.collection("contact").document(contacts.get(i).contact)
-                    .collection("list").document(username).update(updateDebt(true, (contacts.get(i).money + amount) * -1));
+    public void getWallet(final int i, final double amount) {
+        db.collection("wallet").document(username)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                wallet userWallet = new wallet();
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        userWallet = document.toObject(wallet.class);
+                    }
+                }
+                updateDebtWrapper(i, amount , userWallet);
+            }
+        });
+    }
+
+    public void updateDebtWrapper(final int i, final double amount, wallet wallet) {
+        double money = 0.0;
+        for (int i0 = 0; i0 < contacts.size(); i0++) {
+            if (contacts.get(i0).money < 0) {
+                money += (contacts.get(i0).money * -1);
+            }
         }
-        Intent intent = new Intent(this, ShowBalance.class);
-        intent.putExtra("email", username);
-        startActivity(intent);
+
+        if (wallet.amount >= amount) {
+            if (amount >= (contacts.get(i).money *  -1)) {
+                db.collection("contact").document(username)
+                        .collection("list").document(contacts.get(i).contact).update(updateDebt(true,  0));
+                db.collection("contact").document(contacts.get(i).contact)
+                        .collection("list").document(username).update(updateDebt(true, 0));
+
+                Map<String, Object> negative = new HashMap<String, Object>();
+                negative.put("amount", wallet.amount - (contacts.get(i).money *  -1));
+                db.collection("wallet").document(username).update(negative);
+
+                Map<String, Object> positive = new HashMap<String, Object>();
+                positive.put("amount", contacts.get(i).wallet + (contacts.get(i).money *  -1));
+                db.collection("wallet").document(contacts.get(i).contact).update(positive);
+            } else {
+                db.collection("contact").document(username)
+                        .collection("list").document(contacts.get(i).contact).update(updateDebt(true,  contacts.get(i).money + amount));
+                db.collection("contact").document(contacts.get(i).contact)
+                        .collection("list").document(username).update(updateDebt(true, (contacts.get(i).money + amount) * -1));
+
+                Map<String, Object> negative = new HashMap<String, Object>();
+                negative.put("amount", wallet.amount - amount);
+                db.collection("wallet").document(username).update(negative);
+
+                Map<String, Object> positive = new HashMap<String, Object>();
+                positive.put("amount", contacts.get(i).wallet + amount);
+                db.collection("wallet").document(contacts.get(i).contact).update(positive);
+            }
+            Intent intent = new Intent(this, ShowBalance.class);
+            intent.putExtra("email", username);
+            startActivity(intent);
+        } else {
+            Toast.makeText(FullBalance.this, "You don't have enough money!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
